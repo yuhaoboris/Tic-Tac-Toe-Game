@@ -1,11 +1,33 @@
-export default function Player ({name, symbol}) {
+import { useState } from 'react'
+
+export default function Player({ initialName, symbol }) {
+  const [plyaerName, setPlayerName] = useState(initialName)
+  const [isEditting, setIsEditting] = useState(false)
+
+  function handleEditClick() {
+    setIsEditting((editting) => !editting)
+  }
+
+  function handleChange(event) {
+    setPlayerName(event.target.value)
+  }
+
+  let editablePlayerName = <span className="player-name">{plyaerName}</span>
+  let btnCaption = 'Edit'
+
+  if (isEditting) {
+    editablePlayerName = <input type="text" required value={plyaerName} onChange={handleChange} />
+    btnCaption = 'Save'
+  }
+
   return (
     <li>
       <span className="player">
-        <span className="player-name">{name}</span>
+        {editablePlayerName}
         <span className="player-symbol">{symbol}</span>
       </span>
-      <button>Edit</button>
+
+      <button onClick={handleEditClick}>{btnCaption}</button>
     </li>
   )
 }
